@@ -4,7 +4,10 @@ geocoder=geopy.geocoders.GoogleV3(domain="maps.google.co.uk")
 def geolocate(place):
   return geocoder.geocode(place,exactly_one=False)[0][1]
 
-london_location=geolocate("London")
+location = raw_input('Enter a location: ')
+finallocation = raw_input('Enter another location: ')
+endlocation = geolocate(finallocation)
+london_location=geolocate(location)
 print london_location
 
 ### "URL"
@@ -85,8 +88,8 @@ def location_sequence(start,end,steps):
 
 [count_green_in_png(map_at(*location,zoom=10,satellite=True))
             for location in location_sequence(
-                geolocate("London"),
-                geolocate("Birmingham"),
+                geolocate(location),
+                geolocate(endlocation),
                 10)]
 
 
@@ -102,6 +105,6 @@ plt.plot([
     count_green_in_png(
         map_at(*location,zoom=10,satellite=True))
           for location in location_sequence(
-              geolocate("London"),
-              geolocate("Birmingham"),10)])
+              geolocate(location),
+              geolocate(finallocation),10)])
 plt.savefig('greengraph.png')
