@@ -8,8 +8,10 @@ location = raw_input('Enter a location: ')
 finallocation = raw_input('Enter another location: ')
 endlocation = geolocate(finallocation)
 london_location=geolocate(location)
-print london_location
-
+print "First location is at %s:" %(london_location,)
+print "Second location is at %s:" %(endlocation,)
+if type(location) is not str:
+    print "Location not a string from the outset!"
 ### "URL"
 import requests
 def map_at(lat,long, satellite=False, zoom=12, 
@@ -30,6 +32,8 @@ def map_at(lat,long, satellite=False, zoom=12,
 map_response=map_at(51.5072, -0.1275, zoom=10)
 url=map_response.url
 print url
+if type(location) is not str:
+    print "Location not a string after url!"
 
 ### "png"
 
@@ -50,6 +54,8 @@ def count_green_in_png(data):
 
 from StringIO import StringIO
 print count_green_in_png(map_at(*london_location))
+if type(location) is not str:
+    print "Location not a string after amount of green!"
 
 ### "visualise"
 
@@ -73,7 +79,8 @@ def show_green_in_png(data):
     result.save(buffer)
     return buffer.getvalue()
 
-
+if type(location) is not str:
+    print "Location not a string after getting value!"
 
 ### "points"
 
@@ -86,10 +93,12 @@ def location_sequence(start,end,steps):
   longs=linspace(start[1],end[1],steps)
   return zip(lats,longs)
 
+locationstring = location
+
 [count_green_in_png(map_at(*location,zoom=10,satellite=True))
             for location in location_sequence(
                 geolocate(location),
-                geolocate(endlocation),
+                geolocate(finallocation),
                 10)]
 
 
@@ -101,10 +110,14 @@ with open('green.png','w') as green:
     green.write(show_green_in_png(map_at(*london_location,
         zoom=10,satellite=True)))
 
+   
+    
+
 plt.plot([
     count_green_in_png(
         map_at(*location,zoom=10,satellite=True))
           for location in location_sequence(
-              geolocate(location),
+              geolocate(locationstring),
               geolocate(finallocation),10)])
+              
 plt.savefig('greengraph.png')
