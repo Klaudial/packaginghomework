@@ -5,6 +5,7 @@ setup(
     version = "0.1",
     packages = find_packages(exclude=['*test']),
     scripts = ['greenspace/command'],
+    #scripts = ['greenspace/command'],
     #scripts = ['scripts/greenspace'],
     install_requires = ['argparse']
 )
